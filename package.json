@@ -1,0 +1,14 @@
+{
+  "name": "project-library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tailwind": "npx tailwindcss -i src/input.css -o build/css/style.css --watch"
+  },
+  "author": "Giga",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.2"
+  }
+}
