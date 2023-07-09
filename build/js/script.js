@@ -34,10 +34,7 @@ function render() {
   container.innerHTML = "";
 
   // Iterate over each book in myLibrary array
-  myLibrary.forEach((book) => {
-    // Background color
-    const backgroundColorClass = book.read ? "bg-green-200" : "bg-red-200";
-
+  myLibrary.forEach((book, index) => {
     // Create an HTML template for the book element
     const bookElement = `
     <div class="flex flex-col justify-between gap-5 p-5 rounded-lg bg-white shadow-md z-30 text-xl ">
@@ -46,18 +43,64 @@ function render() {
       <p class="flex justify-center text-base font-semibold">${
         book.pages
       } pages</p>
-      <div>
-        <p class="flex justify-center text-base font-semibold rounded ${backgroundColorClass}">${
-        book.read ? "read" : "Not read"
-        }</p>
-
+      <div class="flex flex-col justify-between gap-3">
+        <button  class="flex hover:bg-red-200 justify-center text-base py-3 px-4 font-semibold rounded ${
+          book.read
+            ? "bg-green-400 hover:bg-green-300"
+            : "bg-red-400 hover:bg-red-300"
+        } transition-colors duration-200">${
+      book.read ? "Read" : "Not read"
+    }</button>
+        <button id="remove" class="text-base py-3 px-4 rounded font-semibold bg-gray-400 hover:bg-gray-300 transition-all duration-200">Remove</button>
       </div>
     </div>
   `;
 
+    // Create a temporary <div> container
+    const tempContainer = document.createElement("div");
+    tempContainer.innerHTML = bookElement;
+
+    const toggleButton = tempContainer.querySelector("button");
+    toggleButton.addEventListener("click", () => {
+      toggleReadStatus(index);
+    });
+
+    // Remove Book
+    const removeButton = tempContainer.querySelector("#remove");
+    removeButton.addEventListener("click", () => {
+      removeBook(index);
+    });
+
     // Append the book element to the grid
-    container.insertAdjacentHTML("beforeend", bookElement);
+    container.appendChild(tempContainer.firstElementChild);
+
+    // const element = document
+    //   .createRange()
+    //   .createContextualFragment(bookElement);
+
+    // const toggleButton = element.querySelector("button");
+    // toggleButton.addEventListener("click", () => {
+    //   toggleReadStatus(index);
+    // });
+
+    // container.appendChild(element);
+
+    // Append the book element to the grid
+    // container.insertAdjacentHTML("beforeend", bookElement);
   });
+}
+
+function toggleReadStatus(index) {
+  const book = myLibrary[index];
+  if (book) {
+    book.read = !book.read;
+    render();
+  }
+}
+
+function removeBook(index) {
+  myLibrary.splice(index, 1);
+  render();
 }
 
 function addBookToLibrary() {
@@ -67,7 +110,6 @@ function addBookToLibrary() {
   let read_ = read.checked;
   let newBook = new Book(title_, author_, pages_, read_);
   myLibrary.push(newBook);
-  // console.log(myLibrary);
 
   render();
 
