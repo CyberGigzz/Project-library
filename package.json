@@ -2,9 +2,9 @@
   "name": "project-library",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "script.js",
   "scripts": {
-    "tailwind": "npx tailwindcss -i src/input.css -o build/css/style.css --watch"
+    "tailwind": "npx tailwindcss -i ./src/input.css -o ./build/css/style.css --watch"
   },
   "author": "Giga",
   "license": "ISC",

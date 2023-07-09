@@ -35,15 +35,25 @@ function render() {
 
   // Iterate over each book in myLibrary array
   myLibrary.forEach((book) => {
+    // Background color
+    const backgroundColorClass = book.read ? "bg-green-200" : "bg-red-200";
+
     // Create an HTML template for the book element
     const bookElement = `
-    <div class="flex flex-col justify-between gap-5 p-5 rounded-lg bg-white shadow-lg z-10 text-xl">
-      <h3 class="flex justify-center text-2xl font-semibold">${book.title}</h3>
-      <p class="flex justify-center text-base font-semibold ">${book.author}</p>
-      <p class="flex justify-center text-base font-semibold ">${book.pages} pages</p>
-      <p class="flex justify-center text-base font-semibold ">${book.read ? "Read" : "Not read"}</p>
+    <div class="flex flex-col justify-between gap-5 p-5 rounded-lg bg-white shadow-md z-30 text-xl ">
+      <h3 class="flex justify-center text-2xl font-bold">${book.title}</h3>
+      <p class="flex justify-center text-base font-semibold">${book.author}</p>
+      <p class="flex justify-center text-base font-semibold">${
+        book.pages
+      } pages</p>
+      <div>
+        <p class="flex justify-center text-base font-semibold rounded ${backgroundColorClass}">${
+        book.read ? "read" : "Not read"
+        }</p>
+
+      </div>
     </div>
-    `;
+  `;
 
     // Append the book element to the grid
     container.insertAdjacentHTML("beforeend", bookElement);
