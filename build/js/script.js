@@ -95,12 +95,14 @@ function toggleReadStatus(index) {
   if (book) {
     book.read = !book.read;
     render();
+    saveLibraryToStorage();
   }
 }
 
 function removeBook(index) {
   myLibrary.splice(index, 1);
   render();
+  saveLibraryToStorage();
 }
 
 function addBookToLibrary() {
@@ -112,13 +114,25 @@ function addBookToLibrary() {
   myLibrary.push(newBook);
 
   render();
-
-  // resetForm();
+  saveLibraryToStorage();
   closeTheForm();
 }
 
 function resetForm() {
   newBookForm.reset();
+}
+
+// Local storage
+function saveLibraryToStorage() {
+  localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
+}
+
+function loadLibraryFromStorage() {
+  const storedLibrary = localStorage.getItem("myLibrary");
+  if (storedLibrary) {
+    myLibrary = JSON.parse(storedLibrary);
+    render();
+  }
 }
 
 // EventListeners to manipulate Add Book
@@ -146,4 +160,9 @@ document.addEventListener("keydown", function (event) {
 newBookForm.addEventListener("submit", function (event) {
   event.preventDefault();
   addBookToLibrary();
+});
+
+// Load library from local storage on page load
+document.addEventListener("DOMContentLoaded", function () {
+  loadLibraryFromStorage();
 });
